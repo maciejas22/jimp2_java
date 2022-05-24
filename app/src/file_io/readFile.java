@@ -31,7 +31,9 @@ public class readFile {
 
             line = line.replace("\t", "");
             line = line.replace(":", " ");
-            line = line.substring(1, line.length() - 1);
+            while(!('0' <= line.charAt(0) && line.charAt(0) <= '9')) {
+                line = line.substring(1);
+            }
             String[] arr = line.split("  ");
 
             for (int i = 0; i < arr.length; i++) {
