@@ -11,8 +11,7 @@ public class readFile {
 
     public Graph readGraphFromFile(String file_path) throws IOException {
 
-        String file_name = file_path;
-        Scanner scan = new Scanner(new File(file_name));
+        Scanner scan = new Scanner(new File(file_path));
 
         int rows = scan.nextInt();
         int columns = scan.nextInt();

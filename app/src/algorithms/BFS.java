@@ -30,8 +30,9 @@ public class BFS {
 
         boolean all_visited = true;
         for(int n = graf.getRows() * graf.getColumns() - 1; n>=0; n--){
-            if(is_visited.get(n) == 0){
+            if (is_visited.get(n) == 0) {
                 all_visited = false;
+                break;
             }
         }
         return all_visited;
@@ -41,7 +42,7 @@ public class BFS {
         boolean is_visited = true;
 
         for(int i = 0; i < graf.getColumns()* graf.getRows(); i++){
-            if(BFS(graf, i) == false){
+            if(!BFS(graf, i)){
                 is_visited = false;
             }
         }

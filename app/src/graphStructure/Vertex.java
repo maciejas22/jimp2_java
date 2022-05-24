@@ -3,8 +3,8 @@ package graphStructure;
 import java.util.LinkedList;
 
 public class Vertex {
-    private int index;
-    private LinkedList<Edge> adjacent_edges;
+    private final int index;
+    private final LinkedList<Edge> adjacent_edges;
 
     public Vertex(int index) {
         this.index = index;

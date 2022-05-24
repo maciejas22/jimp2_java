@@ -3,7 +3,8 @@ package graphStructure;
 import java.util.LinkedList;
 
 public class Graph {
-    private int rows, columns;
+    private final int rows;
+    private final int columns;
     public LinkedList<Vertex> adjacency_list;
 
     public Graph(int rows, int columns) {
