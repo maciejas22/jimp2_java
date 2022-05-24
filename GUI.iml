@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_18">
+    <output url="file://$MODULE_DIR$/app/src/GUI/target/classes" />
+    <output-test url="file://$MODULE_DIR$/app/src/GUI/target/test-classes" />
+    <content url="file://$MODULE_DIR$/app/src/GUI">
+      <sourceFolder url="file://$MODULE_DIR$/app/src/GUI/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/app/src/GUI/src/main/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/app/src/GUI/src/test/java" isTestSource="true" />
+      <excludeFolder url="file://$MODULE_DIR$/app/src/GUI/target" />
+    </content>
+    <orderEntry type="jdk" jdkName="openjdk-18" jdkType="JavaSDK" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>
