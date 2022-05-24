@@ -1,7 +1,6 @@
 package graphStructure;
 
 import java.util.LinkedList;
-import graphStructure.Edge;
 
 public class Vertex {
     private int index;

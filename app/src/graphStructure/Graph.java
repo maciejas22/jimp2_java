@@ -1,12 +1,6 @@
 package graphStructure;
 
-import graphStructure.Edge;
-import graphStructure.Vertex;
-
-import java.io.File;
-import java.io.IOException;
 import java.util.LinkedList;
-import java.util.Scanner;
 
 public class Graph {
     private int rows, columns;
