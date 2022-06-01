@@ -1,3 +1,5 @@
+package GUI;
+
 import java.io.IOException;
 
 import javafx.application.Application;
@@ -11,22 +13,19 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
  
 public class App extends Application {
-    @Override
-    public void start(Stage primaryStage) {
+  @Override
+  public void start(Stage primaryStage) {
 
-  
-  Parent root;
-try {
-        root = FXMLLoader.load(getClass().getResource("GUI.fxml"));
-        Scene scene = new Scene(root);
-        primaryStage.setTitle("Graph Analyzer vlo.2");
-        primaryStage.setScene(scene);
-        primaryStage.show();
-    } catch (IOException e) {
+    Parent root;
+    try {
+      root = FXMLLoader.load(getClass().getResource("GUI.fxml"));
+      Scene scene = new Scene(root);
+      primaryStage.setTitle("Graph Analyzer vlo.2");
+      primaryStage.setScene(scene);
+      primaryStage.show();
+    } catch (IOException e) { }
 
-    }
-
-    }
+  }
  
  public static void main(String[] args) {
         launch(args);

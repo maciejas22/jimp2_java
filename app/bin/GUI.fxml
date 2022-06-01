@@ -5,12 +5,14 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainSceneController">
+<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.MainSceneController">
    <children>
+      <StackPane prefHeight="600.0" prefWidth="600.0" />
+      <TextField fx:id="PlikZapisz" layoutX="620.0" layoutY="265.0" prefHeight="30.0" prefWidth="160.0" promptText="[NazwaPliku]" />
       <Label layoutX="620.0" prefHeight="50.0" prefWidth="160.0" text="Generator" textAlignment="CENTER">
          <font>
             <Font size="36.0" />
@@ -76,7 +78,7 @@
          </font>
       </Button>
       <Line endX="200.0" layoutX="600.0" layoutY="558.0" />
-      <Label layoutX="620.0" layoutY="550.0" prefHeight="50.0" prefWidth="160.0" text="Najkrutsza droga">
+      <Label layoutX="620.0" layoutY="550.0" prefHeight="50.0" prefWidth="160.0" text="Najkrótsza droga">
          <font>
             <Font size="20.0" />
          </font>
@@ -93,6 +95,5 @@
             <Font size="21.0" />
          </font>
       </Button>
-      <TextField fx:id="PlikZapisz" layoutX="620.0" layoutY="265.0" prefHeight="30.0" prefWidth="160.0" promptText="[NazwaPliku]" />
    </children>
 </AnchorPane>
