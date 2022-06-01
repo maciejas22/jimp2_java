@@ -1,7 +1,5 @@
 package graphStructure;
 
-import graphStructure.Vertex;
-
 import java.util.Comparator;
 
 public class Edge implements Comparator<Edge> {
