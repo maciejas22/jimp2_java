@@ -27,6 +27,7 @@ public class MainSceneController {
     private double WeightMini,WeightMaxi;
     private String SavedFile, ReadFile;
     private Graph graf = null;
+    private Boolean isConnected = null;
 
     @FXML
     private TextField DoWDix;
@@ -88,6 +89,7 @@ public class MainSceneController {
         Info.appendText("Generujemy graf o wielkość "+rows+"x"+columns+"\n");
         Info.appendText("Minimalna waga wynasi: "+WeightMini+" zaś maxymalna: "+WeightMaxi+"\n");
         graf = new generator().generateGraph(rows, columns, WeightMini, WeightMaxi);
+        isConnected = true;
 
         int diameterX, diameterY;
         int height = 590, width = 590;
@@ -152,13 +154,14 @@ public class MainSceneController {
             return;
         }
         ReadFile=PlikTxt.getText();
+        isConnected = null;
     }
 
     @FXML
     void BFSClicked(ActionEvent event) {
         if(graf != null){
             Info.appendText("Wykonujemy algorytm BFS\n");
-            boolean isConnected = new BFS().isConnected(graf);
+            isConnected = new BFS().isConnected(graf);
             if(isConnected){
                 Info.appendText("Graf jest spójny\n");
             }
@@ -186,16 +189,22 @@ public class MainSceneController {
             return;
         }
         
+        
+        if(isConnected == null){
+            Info.appendText("Najpierw wykonaj algorytm BFS! \n");
+            return;
+        }
+        else if(!isConnected){
+            Info.appendText("Graf nie jest spójny! \n");
+            return;
+        }
+        
         if(graf != null){
             Info.appendText("Wykonujemy algorytm Dijkstry\n");
         }
         else {
             Info.appendText("Najpierw wygeneruj graf! \n");
             return;
-        }
-
-        if(!new BFS().isConnected(graf)){
-            Info.appendText("Graf nie jest spójny! \n");
         }
 
         if(DixtraStart < 0 || DixtraStart >= graf.adjacency_list.size() || DixtraEnd < 0 || DixtraEnd >= graf.adjacency_list.size()){
