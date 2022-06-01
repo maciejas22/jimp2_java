@@ -3,13 +3,10 @@ package file_io;
 import graphStructure.Edge;
 import graphStructure.Graph;
 import graphStructure.Vertex;
-import javafx.scene.shape.Path;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.file.Files;
 
 public class writeFile {
     public void writeGraphToFile(Graph graf, String file_name) throws IOException {
