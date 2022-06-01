@@ -12,7 +12,7 @@ public class dijkstra {
     private Vertex[] previous;
     private PriorityQueue<Edge> prioqueue;
 
-    public double[] findPath(Graph graf, Vertex src){
+    public Vertex[] findPath(Graph graf, Vertex src){
         previous = new Vertex[graf.getColumns() * graf.getRows()];
         prioqueue = new PriorityQueue<Edge>(6, new Edge());
 
@@ -38,6 +38,6 @@ public class dijkstra {
                 }
             }
         }
-        return distance;
+        return previous;
     }
 }
