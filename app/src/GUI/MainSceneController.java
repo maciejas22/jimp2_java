@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -98,6 +99,49 @@ public class MainSceneController {
         is_graph_drawn = true;
     }
 
+    void drawDijktra(Graph graf, ArrayList<Integer> trasa){
+        int row0, row1, column0, column1;
+        int x0, y0, x1, y1;
+        Pane dots = new Pane(); dots.getChildren().clear();
+        Pane arm = new Pane();
+        if(is_graph_drawn){
+            for(int i = 0; i < trasa.size()-1; i++){
+                row0 = trasa.get(i)/columns;
+                column0 = trasa.get(i)%columns;
+                row1 = trasa.get(i+1)/columns;
+                column1 = trasa.get(i+1)%columns;
+                
+                x0 = 2*circleRadius + 4*circleRadius*column0;
+                y0 = 2*circleRadius + 4*circleRadius*row0;
+                x1 = 2*circleRadius + 4*circleRadius*column1;
+                y1 = 2*circleRadius + 4*circleRadius*row1;
+
+                Circle cir1 = new Circle(x0, y0, circleRadius);
+                cir1.setFill(Color.RED);
+                Circle cir2 = new Circle(x1, y1, circleRadius);
+                cir2.setFill(Color.RED);
+                dots.getChildren().addAll(cir1, cir2);
+
+                Line line = new Line(x0, y0, x1, y1);
+                line.setStroke(Color.RED);
+                arm.getChildren().add(line);
+            }
+
+            dijkstra_image.getChildren().clear();
+            dijkstra_image.getChildren().addAll(arm, dots);
+
+            StackPane stack = new StackPane();
+            if(vertex1 != null && vertex2 != null){
+                stack.getChildren().addAll(graph_image, dijkstra_image, vertex1, vertex2);
+                windowForGraph.setContent(stack);
+            }
+            else {
+                stack.getChildren().addAll(graph_image, dijkstra_image);
+                windowForGraph.setContent(stack);
+            }
+        }
+    }
+
     @FXML
     void GenerujClicked(ActionEvent event) throws IOException {
         if(!Kolumny.getText().isEmpty() && !Wiersze.getText().isEmpty() && !WMax.getText().isEmpty() && !WMini.getText().isEmpty()){
@@ -126,7 +170,10 @@ public class MainSceneController {
         Info.appendText("Minimalna waga wynasi: "+WeightMini+" zaś maxymalna: "+WeightMaxi+"\n");
         graf = new generator().generateGraph(rows, columns, WeightMini, WeightMaxi);
         isConnected = 1;
+        dijkstra_image.getChildren().clear();
         drawGraph(graf);
+        vertex1 = null; vertex2 = null;
+        vertex_list[0] = -1; vertex_list[1] = -1;
     }
 
     @FXML
@@ -203,20 +250,26 @@ public class MainSceneController {
 
     @FXML
     void DijkstraClicked(ActionEvent event) {
-        if(ZWDix.getText().isEmpty() || DoWDix.getText().isEmpty()){
-            Info.appendText("Wprowadz wszystkie dane.\n");
-            return;
+        if(vertex_list[0] != -1 && vertex_list[1] != -1) {
+            DixtraStart = vertex_list[0];
+            DixtraEnd = vertex_list[1];
+            dijkstra_image.getChildren().clear();
         }
-        try {
-            DixtraStart = Integer.parseInt(ZWDix.getText());
-            DixtraEnd = Integer.parseInt(DoWDix.getText());
+        else{
+            if(ZWDix.getText().isEmpty() || DoWDix.getText().isEmpty()){
+                Info.appendText("Wprowadz wszystkie dane.\n");
+                return;
+            }
+            try {
+                DixtraStart = Integer.parseInt(ZWDix.getText());
+                DixtraEnd = Integer.parseInt(DoWDix.getText());
+            }
+            catch(NumberFormatException e){
+                Info.appendText("Wprowadzono niepoprawne dane.\n");
+                return;
+            }
         }
-        catch(NumberFormatException e){
-            Info.appendText("Wprowadzono niepoprawne dane.\n");
-            return;
-        }
-        
-        
+
         if(isConnected == -1){
             Info.appendText("Najpierw wykonaj algorytm BFS! \n");
             return;
@@ -255,46 +308,72 @@ public class MainSceneController {
         }
         Info.appendText("\n");
 
-        int row0, row1, column0, column1;
-        int x0, y0, x1, y1;
-        Pane dots = new Pane();
-        Pane arm = new Pane();
-        if(is_graph_drawn){
-            for(int i = 0; i < trasa.size()-1; i++){
-                row0 = trasa.get(i)/columns;
-                column0 = trasa.get(i)%columns;
-                row1 = trasa.get(i+1)/columns;
-                column1 = trasa.get(i+1)%columns;
-                
-                x0 = 2*circleRadius + 4*circleRadius*column0;
-                y0 = 2*circleRadius + 4*circleRadius*row0;
-                x1 = 2*circleRadius + 4*circleRadius*column1;
-                y1 = 2*circleRadius + 4*circleRadius*row1;
+        drawDijktra(graf, trasa);
+    }
 
-                Circle cir1 = new Circle(x0, y0, circleRadius);
-                cir1.setFill(Color.RED);
-                Circle cir2 = new Circle(x1, y1, circleRadius);
-                cir2.setFill(Color.RED);
-                dots.getChildren().addAll(cir1, cir2);
-
-                Line line = new Line(x0, y0, x1, y1);
-                line.setStroke(Color.RED);
-                arm.getChildren().add(line);
+    private int[] vertex_list = {-1, -1};
+    @FXML
+    void click(MouseEvent e1){
+        double last_clicked_x = e1.getX();
+        double last_clicked_y = e1.getY();
+        
+        if(is_graph_drawn) {
+            int[] res = color_clicked_vertex(last_clicked_x, last_clicked_y);
+            if(vertex_list[0] == -1){
+                vertex_list[0] = res[0] + res[1] * columns;
             }
-
-            dijkstra_image.getChildren().clear();
-            dijkstra_image.getChildren().addAll(arm, dots);
-
-            StackPane stack = new StackPane();
-            stack.getChildren().addAll(graph_image, dijkstra_image);
-            windowForGraph.setContent(stack);
+            else if(vertex_list[1] == -1){
+                vertex_list[1] = res[0] + res[1] * columns;
+            }
         }
+    }
+
+    Pane vertex1 = null;
+    Pane vertex2 = null;
+    boolean drawn1 = false;
+    boolean drawn2 = false;
+    Pane tmp = new Pane();
+    int[] color_clicked_vertex(double x, double y){
+        x -= 5; y -= 5;
+        int c = (int) x / (4*circleRadius);
+        int r = (int) y / (4*circleRadius);   
+
+        double circle_center_x = c * 4*circleRadius + 10 + circleRadius;
+        if(circle_center_x > (2*columns-1)*2*circleRadius) {
+            circle_center_x = (2*columns-1)*2*circleRadius;
+        }
+        
+        double circle_center_y = r * 4*circleRadius + 10 + circleRadius;
+        if(circle_center_y > (2*rows-1)*2*circleRadius) {
+            circle_center_y = (2*rows-1)*2*circleRadius;
+        }
+
+        Circle selected = new Circle(circle_center_x, circle_center_y, circleRadius);
+        selected.setFill(Color.RED);
+
+        if(vertex1 == null){
+            vertex1 = new Pane();
+            vertex1.getChildren().clear();
+            vertex1.getChildren().add(selected);
+            tmp.getChildren().addAll(graph_image, dijkstra_image, vertex1);
+            drawn1 = true;
+        }
+        else if(vertex2 == null){
+            vertex2 = new Pane();
+            vertex2.getChildren().clear();
+            vertex2.getChildren().add(selected);
+            tmp.getChildren().clear();
+            tmp.getChildren().addAll(graph_image, dijkstra_image, vertex1, vertex2);
+            drawn2 = true;
+        }
+        windowForGraph.setContent(tmp);
+
+        return new int[]{(int)(circle_center_x-circleRadius-10)/(4*circleRadius-1), (int)(circle_center_y-circleRadius-10)/(4*circleRadius-1)};
     }
 
     @FXML
     void HelpClicked(ActionEvent event) {
         Info.appendText("POMOC\n");
     }
-
 
 }
