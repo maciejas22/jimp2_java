@@ -97,36 +97,34 @@ public class MainSceneController {
         graf = new generator().generateGraph(rows, columns, WeightMini, WeightMaxi);
         isConnected = true;
 
-        double height = 600, width = 600;
-        double x, y;
+        double diameterX, diameterY;
+        int height = 590, width = 590;
 
-        Pane edges = new Pane();    Line l;
-        Pane nodes = new Pane();    Circle c;
-        
-        x = -2*circleRadius;
-        for(int i = 0; i < columns; i++){
-            x += 4*circleRadius;
-            y = 2*circleRadius;
-            for(int j = 0; j < rows; j++){
-                c = new Circle(x, y, circleRadius);
-
+        Pane nodes = new Pane(); Circle c;
+        Pane edges = new Pane(); Line l;
+        diameterX = width / ((2 * columns) - 1);
+        diameterY = height / ((2 * rows) - 1);
+        for(double i = 0; i < columns; i++){
+            double xi=5+(diameterX/2);
+            for(double j =0; j < rows; j++){
+                double yi=5+(diameterY/2);
+                c = new Circle(xi, yi, Math.min(diameterX,diameterY)/2);
                 c.setFill(Color.WHITE);
                 c.setStroke(Color.BLACK);
                 nodes.getChildren().add(c);
 
-                l = new Line(2*circleRadius, y, (2*columns-1)*circleRadius*2, y);
+                
+                l = new Line(5+diameterX/2, yi, width-diameterX/2, yi);
                 edges.getChildren().add(l);
-
-                y += 4*circleRadius;
+                yi+=diameterY*2;
             }
-            l = new Line(x ,2*circleRadius, x, (2*rows-1)*circleRadius*2);
+            l = new Line(xi, 5+diameterY/2, xi, height-diameterY/2 );
             edges.getChildren().add(l);
+            xi+=diameterX*2;
         }
-
+        
         graph_image.getChildren().clear();
         graph_image.getChildren().addAll(edges, nodes);
-        windowForGraph.setContent(graph_image);
-        is_graph_drawn = true;
     }
 
     @FXML
