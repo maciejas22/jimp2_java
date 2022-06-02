@@ -11,7 +11,7 @@
 
 <AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.MainSceneController">
    <children>
-      <ScrollPane fx:id="windowForGraph" prefHeight="600.0" prefWidth="600.0" />
+      <ScrollPane fx:id="windowForGraph" onMouseClicked="#click" prefHeight="600.0" prefWidth="600.0" />
       <TextField fx:id="PlikZapisz" layoutX="620.0" layoutY="265.0" prefHeight="30.0" prefWidth="160.0" promptText="[NazwaPliku]" />
       <Label layoutX="620.0" prefHeight="50.0" prefWidth="160.0" text="Generator" textAlignment="CENTER">
          <font>
