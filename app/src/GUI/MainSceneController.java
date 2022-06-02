@@ -379,7 +379,14 @@ public class MainSceneController {
 
     @FXML
     void HelpClicked(ActionEvent event) {
-        Info.appendText("POMOC\n");
+        Info.appendText("--------POMOC--------\n");
+        Info.appendText("Zakladka \"Generator\" pozwoli ci wygenerować graf dowolnej wielkości! \n");
+        Info.appendText("Generowanie grafów mających więcej niż 20k wierzhołków może zająć dużo czasu. \n");
+        Info.appendText("Program pozwala także wczytać oraz zapisać graf do pliku tekstowego.\n");
+        Info.appendText("W przypadku gdy nie ustawisz rozszerzenia pliku przy zapisywaniu grafu zostanie wybrane domyślnie rozszerzenie txt.\n");
+        Info.appendText("Przycisk \"BFS\" sprawdza czy graf jest spójny - czyli czy każdą parę wierzhołków łączy jakaś ścieżka. \n");
+        Info.appendText("Za pomocą przycisku \"Dijkstra\" najdziesz najkótszą ścieżkę między dowolną parą wierzchołków.\n");
+        Info.appendText("Parę wierzhołków można wskazać kursorem!\n");
     }
 
 }
