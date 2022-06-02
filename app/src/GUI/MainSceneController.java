@@ -65,8 +65,9 @@ public class MainSceneController {
     private ScrollPane windowForGraph;
 
     private StackPane graph_image = new StackPane();
-    private StackPane dijkstra_image = new StackPane();
     boolean is_graph_drawn = false;
+    private StackPane dijkstra_image = new StackPane();
+    boolean is_dijkstra_drawn = false;
     private final int circleRadius = 10;
 
     void drawGraph(Graph graf){
@@ -139,6 +140,7 @@ public class MainSceneController {
                 stack.getChildren().addAll(graph_image, dijkstra_image);
                 windowForGraph.setContent(stack);
             }
+            is_dijkstra_drawn = true;
         }
     }
 
@@ -174,6 +176,7 @@ public class MainSceneController {
         drawGraph(graf);
         vertex1 = null; vertex2 = null;
         vertex_list[0] = -1; vertex_list[1] = -1;
+        is_dijkstra_drawn = false;
     }
 
     @FXML
@@ -219,6 +222,7 @@ public class MainSceneController {
 
         graph_image.getChildren().clear();
         windowForGraph.setContent(graph_image);
+        is_dijkstra_drawn = false;
     }
 
     @FXML
@@ -250,12 +254,14 @@ public class MainSceneController {
 
     @FXML
     void DijkstraClicked(ActionEvent event) {
-        if(vertex_list[0] != -1 && vertex_list[1] != -1) {
+        if(vertex_list[0] != -1 && vertex_list[1] != -1 && is_dijkstra_drawn == false) {
             DixtraStart = vertex_list[0];
             DixtraEnd = vertex_list[1];
             dijkstra_image.getChildren().clear();
         }
         else{
+            vertex1 = null;
+            vertex2 = null;
             if(ZWDix.getText().isEmpty() || DoWDix.getText().isEmpty()){
                 Info.appendText("Wprowadz wszystkie dane.\n");
                 return;
@@ -317,7 +323,7 @@ public class MainSceneController {
         double last_clicked_x = e1.getX();
         double last_clicked_y = e1.getY();
         
-        if(is_graph_drawn) {
+        if(is_graph_drawn && !is_dijkstra_drawn) {
             int[] res = color_clicked_vertex(last_clicked_x, last_clicked_y);
             if(vertex_list[0] == -1){
                 vertex_list[0] = res[0] + res[1] * columns;
