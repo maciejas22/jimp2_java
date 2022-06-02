@@ -17,6 +17,7 @@ public class App extends Application {
       Scene scene = new Scene(root);
       primaryStage.setTitle("Graph Analyzer vlo.2");
       primaryStage.setScene(scene);
+      primaryStage.setResizable(false);
       primaryStage.show();
     } catch (IOException e) { }
 
