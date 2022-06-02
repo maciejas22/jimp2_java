@@ -232,8 +232,6 @@ public class MainSceneController {
         int height = 590, width = 590;
         double x0,x1,y0,y1;
 
-        Pane nodes = new Pane(); Circle c;
-        Pane edges = new Pane(); Line l;
         diameterX = width / ((2 * columns) - 1);
         diameterY = height / ((2 * rows) - 1);
 
@@ -272,7 +270,7 @@ public class MainSceneController {
     @FXML
     void HelpClicked(ActionEvent event) {
         Info.appendText("POMOC\n");
-    }
-
-
+    }   
+    
 }
+
