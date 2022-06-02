@@ -1,0 +1,50 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch App",
+            "request": "launch",
+            "mainClass": "App",
+            "projectName": "app_572d5aa1",
+            "vmArgs": "--module-path \"C:/Programy/openjfx-18.0.1_windows-x64_bin-sdk/javafx-sdk-18.0.1/lib\" --add-modules javafx.controls,javafx.fxml"
+
+        },
+        {
+            "type": "java",
+            "name": "Launch App",
+            "request": "launch",
+            "mainClass": "GUI.App",
+            "projectName": "app_572d5aa1",
+            "vmArgs": "--module-path \"C:/Programy/openjfx-18.0.1_windows-x64_bin-sdk/javafx-sdk-18.0.1/lib\" --add-modules javafx.controls,javafx.fxml"
+
+        },
+        {
+            "type": "java",
+            "name": "Launch App",
+            "request": "launch",
+            "mainClass": "GUI.App",
+            "projectName": "FirstJavaFXProject_8ec1cd5b",
+            "vmArgs": "--module-path \"C:/Programy/openjfx-18.0.1_windows-x64_bin-sdk/javafx-sdk-18.0.1/lib\" --add-modules javafx.controls,javafx.fxml"
+        },
+        {
+            "type": "java",
+            "name": "Launch Current File",
+            "request": "launch",
+            "mainClass": "${file}",
+            "vmArgs": "--module-path \"C:/Programy/openjfx-18.0.1_windows-x64_bin-sdk/javafx-sdk-18.0.1/lib\" --add-modules javafx.controls,javafx.fxml"
+
+        },
+        {
+            "type": "java",
+            "name": "Launch App",
+            "request": "launch",
+            "mainClass": "GUI.App",
+            "projectName": "FirstJavaFXProject_7a76f2f5",
+            "vmArgs": "--module-path \"C:/Programy/openjfx-18.0.1_windows-x64_bin-sdk/javafx-sdk-18.0.1/lib\" --add-modules javafx.controls,javafx.fxml"
+        }
+    ]
+}

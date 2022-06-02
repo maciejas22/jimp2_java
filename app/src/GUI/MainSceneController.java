@@ -91,15 +91,15 @@ public class MainSceneController {
         graf = new generator().generateGraph(rows, columns, WeightMini, WeightMaxi);
         isConnected = true;
 
-        int diameterX, diameterY;
+        double diameterX, diameterY;
         int height = 590, width = 590;
 
         Pane nodes = new Pane(); Circle c;
         Pane edges = new Pane(); Line l;
         diameterX = width / ((2 * columns) - 1);
         diameterY = height / ((2 * rows) - 1);
-        for(int i = 5+diameterX/2; i < width; i+=diameterX*2){
-            for(int j = 5+diameterY/2; j < height; j+=diameterY*2){
+        for(double i = 5+diameterX/2; i < width; i+=diameterX*2){
+            for(double j = 5+diameterY/2; j < height; j+=diameterY*2){
                 c = new Circle(i, j, Math.min(diameterX,diameterY)/2);
                 c.setFill(Color.WHITE);
                 c.setStroke(Color.BLACK);
@@ -227,6 +227,45 @@ public class MainSceneController {
             Info.appendText(trasa.get(i)+" ");
         }
         Info.appendText("\n");
+
+        int diameterX, diameterY;
+        int height = 590, width = 590;
+        double x0,x1,y0,y1;
+
+        Pane nodes = new Pane(); Circle c;
+        Pane edges = new Pane(); Line l;
+        diameterX = width / ((2 * columns) - 1);
+        diameterY = height / ((2 * rows) - 1);
+
+        int wiersze0, kolumny0, wiersze1, kolumny1;
+
+        for(int i=0;i<trasa.size()-1;i++) {
+            wiersze0=trasa.get(i)/columns;
+            kolumny0=trasa.get(i)%columns;
+            wiersze1=trasa.get(i+1)/columns;
+            kolumny1=trasa.get(i+1)%columns;
+
+            x0=5+kolumny0*diameterX*2 + diameterX/2;
+            y0=5+wiersze0*diameterY*2 + diameterY/2;
+
+            x1=5+kolumny1*diameterX*2 + diameterX/2;
+            y1=5+wiersze1*diameterY*2 + diameterY/2;
+
+            Circle q= new Circle(x0,y0,Math.min(diameterX,diameterY)/2);
+            q.setFill(Color.RED);
+            Circle q1= new Circle(x1,y1,Math.min(diameterX,diameterY)/2);
+            q1.setFill(Color.RED);
+            Pane dot = new Pane();
+
+            Line l1=new Line(x0,y0,x1,y1);
+            l1.setStroke(Color.RED);
+            Pane arm = new Pane();
+
+            dot.getChildren().add(q);
+            dot.getChildren().add(q1);
+            arm.getChildren().add(l1);
+            windowForGraph.getChildren().addAll(arm, dot);
+        }
 
     }
 
