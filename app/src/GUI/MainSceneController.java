@@ -28,7 +28,7 @@ public class MainSceneController {
     private double WeightMini,WeightMaxi;
     private String SavedFile, ReadFile;
     private Graph graf = null;
-    private Boolean isConnected = null;
+    private int isConnected = -1;
 
     @FXML
     private TextField DoWDix;
@@ -68,6 +68,36 @@ public class MainSceneController {
     boolean is_graph_drawn = false;
     private final int circleRadius = 10;
 
+    void drawGraph(Graph graf){
+        double x, y;
+        Pane edges = new Pane();    Line l;
+        Pane nodes = new Pane();    Circle c;
+        
+        x = -2*circleRadius;
+        for(int i = 0; i < graf.getColumns(); i++){
+            x += 4*circleRadius;
+            y = 2*circleRadius;
+            for(int j = 0; j < graf.getRows(); j++){
+                c = new Circle(x, y, circleRadius);
+                c.setFill(Color.WHITE);
+                c.setStroke(Color.BLACK);
+                nodes.getChildren().add(c);
+
+                l = new Line(2*circleRadius, y, (2*graf.getColumns()-1)*circleRadius*2, y);
+                edges.getChildren().add(l);
+
+                y += 4*circleRadius;
+            }
+            l = new Line(x ,2*circleRadius, x, (2*graf.getRows()-1)*circleRadius*2);
+            edges.getChildren().add(l);
+        }
+
+        graph_image.getChildren().clear();
+        graph_image.getChildren().addAll(edges, nodes);
+        windowForGraph.setContent(graph_image);
+        is_graph_drawn = true;
+    }
+
     @FXML
     void GenerujClicked(ActionEvent event) throws IOException {
         if(!Kolumny.getText().isEmpty() && !Wiersze.getText().isEmpty() && !WMax.getText().isEmpty() && !WMini.getText().isEmpty()){
@@ -95,37 +125,8 @@ public class MainSceneController {
         Info.appendText("Generujemy graf o wielkość "+rows+"x"+columns+"\n");
         Info.appendText("Minimalna waga wynasi: "+WeightMini+" zaś maxymalna: "+WeightMaxi+"\n");
         graf = new generator().generateGraph(rows, columns, WeightMini, WeightMaxi);
-        isConnected = true;
-
-        double height = 600, width = 600;
-        double x, y;
-
-        Pane edges = new Pane();    Line l;
-        Pane nodes = new Pane();    Circle c;
-        
-        x = -2*circleRadius;
-        for(int i = 0; i < columns; i++){
-            x += 4*circleRadius;
-            y = 2*circleRadius;
-            for(int j = 0; j < rows; j++){
-                c = new Circle(x, y, circleRadius);
-                c.setFill(Color.WHITE);
-                c.setStroke(Color.BLACK);
-                nodes.getChildren().add(c);
-
-                l = new Line(2*circleRadius, y, (2*columns-1)*circleRadius*2, y);
-                edges.getChildren().add(l);
-
-                y += 4*circleRadius;
-            }
-            l = new Line(x ,2*circleRadius, x, (2*rows-1)*circleRadius*2);
-            edges.getChildren().add(l);
-        }
-
-        graph_image.getChildren().clear();
-        graph_image.getChildren().addAll(edges, nodes);
-        windowForGraph.setContent(graph_image);
-        is_graph_drawn = true;
+        isConnected = 1;
+        drawGraph(graf);
     }
 
     @FXML
@@ -158,31 +159,37 @@ public class MainSceneController {
             ReadFile = PlikTxt.getText();
             Info.appendText("Wczytuje graf z pliku o nazwie: "+ReadFile+"\n");
             graf = new readFile().readGraphFromFile(ReadFile);
+            Info.appendText("Wczytano graf o wielkości "+graf.getRows()+"x"+graf.getColumns()+"\n");
         }
         else{
             Info.appendText("Wprowadz nazwe pliku.\n");
             return;
         }
         ReadFile=PlikTxt.getText();
-        isConnected = null;
+        isConnected = -1;
         is_graph_drawn = false;
+        rows = graf.getRows(); columns = graf.getColumns();
+
+        graph_image.getChildren().clear();
+        windowForGraph.setContent(graph_image);
     }
 
     @FXML
     void BFSClicked(ActionEvent event) {
-        if(isConnected == true){
+        if(isConnected == 1){
             Info.appendText("Graf jest spójny\n");
             return;
         }
-        else if(isConnected == false){
+        else if(isConnected == 0){
             Info.appendText("Graf jest niespójny\n");
             return;
         }
         
         if(graf != null){
             Info.appendText("Wykonujemy algorytm BFS\n");
-            isConnected = new BFS().isConnected(graf);
-            if(isConnected){
+            isConnected = new BFS().isConnected(graf) ? 1 : 0;
+            if(isConnected == 1){
+                drawGraph(graf);
                 Info.appendText("Graf jest spójny\n");
             }
             else {
@@ -210,11 +217,11 @@ public class MainSceneController {
         }
         
         
-        if(isConnected == null){
+        if(isConnected == -1){
             Info.appendText("Najpierw wykonaj algorytm BFS! \n");
             return;
         }
-        else if(!isConnected){
+        else if(isConnected == 0){
             Info.appendText("Graf nie jest spójny! \n");
             return;
         }
