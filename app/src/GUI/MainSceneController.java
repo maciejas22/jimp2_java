@@ -5,6 +5,7 @@ import java.util.Collections;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -60,7 +61,12 @@ public class MainSceneController {
     private AnchorPane root;
 
     @FXML 
-    private StackPane windowForGraph;
+    private ScrollPane windowForGraph;
+
+    private StackPane graph_image = new StackPane();
+    private StackPane dijkstra_image = new StackPane();
+    boolean is_graph_drawn = false;
+    private final int circleRadius = 10;
 
     @FXML
     void GenerujClicked(ActionEvent event) throws IOException {
@@ -91,31 +97,35 @@ public class MainSceneController {
         graf = new generator().generateGraph(rows, columns, WeightMini, WeightMaxi);
         isConnected = true;
 
-        int diameterX, diameterY;
-        int height = 590, width = 590;
+        double height = 600, width = 600;
+        double x, y;
 
-        Pane nodes = new Pane(); Circle c;
-        Pane edges = new Pane(); Line l;
-        diameterX = width / ((2 * columns) - 1);
-        diameterY = height / ((2 * rows) - 1);
-        for(int i = 5+diameterX/2; i < width; i+=diameterX*2){
-            for(int j = 5+diameterY/2; j < height; j+=diameterY*2){
-                c = new Circle(i, j, Math.min(diameterX,diameterY)/2);
+        Pane edges = new Pane();    Line l;
+        Pane nodes = new Pane();    Circle c;
+        
+        x = -2*circleRadius;
+        for(int i = 0; i < columns; i++){
+            x += 4*circleRadius;
+            y = 2*circleRadius;
+            for(int j = 0; j < rows; j++){
+                c = new Circle(x, y, circleRadius);
                 c.setFill(Color.WHITE);
                 c.setStroke(Color.BLACK);
                 nodes.getChildren().add(c);
 
-                
-                l = new Line(5+diameterX/2, j, width-diameterX/2, j);
+                l = new Line(2*circleRadius, y, (2*columns-1)*circleRadius*2, y);
                 edges.getChildren().add(l);
+
+                y += 4*circleRadius;
             }
-            l = new Line(i, 5+diameterY/2, i, height-diameterY/2 );
+            l = new Line(x ,2*circleRadius, x, (2*rows-1)*circleRadius*2);
             edges.getChildren().add(l);
         }
-        
-        windowForGraph.getChildren().clear();
-        windowForGraph.getChildren().addAll(edges, nodes);
 
+        graph_image.getChildren().clear();
+        graph_image.getChildren().addAll(edges, nodes);
+        windowForGraph.setContent(graph_image);
+        is_graph_drawn = true;
     }
 
     @FXML
@@ -155,10 +165,20 @@ public class MainSceneController {
         }
         ReadFile=PlikTxt.getText();
         isConnected = null;
+        is_graph_drawn = false;
     }
 
     @FXML
     void BFSClicked(ActionEvent event) {
+        if(isConnected == true){
+            Info.appendText("Graf jest spójny\n");
+            return;
+        }
+        else if(isConnected == false){
+            Info.appendText("Graf jest niespójny\n");
+            return;
+        }
+        
         if(graf != null){
             Info.appendText("Wykonujemy algorytm BFS\n");
             isConnected = new BFS().isConnected(graf);
@@ -228,6 +248,40 @@ public class MainSceneController {
         }
         Info.appendText("\n");
 
+        int row0, row1, column0, column1;
+        int x0, y0, x1, y1;
+        Pane dots = new Pane();
+        Pane arm = new Pane();
+        if(is_graph_drawn){
+            for(int i = 0; i < trasa.size()-1; i++){
+                row0 = trasa.get(i)/columns;
+                column0 = trasa.get(i)%columns;
+                row1 = trasa.get(i+1)/columns;
+                column1 = trasa.get(i+1)%columns;
+                
+                x0 = 2*circleRadius + 4*circleRadius*column0;
+                y0 = 2*circleRadius + 4*circleRadius*row0;
+                x1 = 2*circleRadius + 4*circleRadius*column1;
+                y1 = 2*circleRadius + 4*circleRadius*row1;
+
+                Circle cir1 = new Circle(x0, y0, circleRadius);
+                cir1.setFill(Color.RED);
+                Circle cir2 = new Circle(x1, y1, circleRadius);
+                cir2.setFill(Color.RED);
+                dots.getChildren().addAll(cir1, cir2);
+
+                Line line = new Line(x0, y0, x1, y1);
+                line.setStroke(Color.RED);
+                arm.getChildren().add(line);
+            }
+
+            dijkstra_image.getChildren().clear();
+            dijkstra_image.getChildren().addAll(arm, dots);
+
+            StackPane stack = new StackPane();
+            stack.getChildren().addAll(graph_image, dijkstra_image);
+            windowForGraph.setContent(stack);
+        }
     }
 
     @FXML
